@@ -3,6 +3,8 @@ package _04_Base64_Decoder;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
+import _03_Printing_Binary.BinaryPrinter;
+
 public class Base64Decoder {
 	/*
 	 * Base 64 is a way of encoding binary data using text.
@@ -24,7 +26,11 @@ public class Base64Decoder {
 	 * View this link for a full description of Base64 encoding
 	 * https://en.wikipedia.org/wiki/Base64
 	 */
-	
+	//FOR TESTING only remove later
+	public static void main(String[] args) {
+		BinaryPrinter.printByteBinary((byte)26);
+		convert4CharsTo24Bits("aAAA");
+	}
 	
 	final static char[] base64Chars = {
 		'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 
@@ -37,14 +43,37 @@ public class Base64Decoder {
 	//1. Complete this method so that it returns the the element in
 	//   the base64Chars array that corresponds to the passed in char.
 	public static byte convertBase64Char(char c){
-		return 0;
+		for(int i = 0; i < base64Chars.length; i++)
+		{
+			if(base64Chars[i] == c)
+				return (byte)i;
+		}
+		return (byte)0;
 	}
 	
 	//2. Complete this method so that it will take in a string that is 4 
 	//   characters long and return an array of 3 bytes (24 bits). The byte 
 	//   array should be the binary value of the encoded characters.
 	public static byte[] convert4CharsTo24Bits(String s){
-		return null;
+		byte[] temp = new byte[4];
+		for(int i = 0; i < 4; i++)
+		{
+			temp[i] = convertBase64Char(s.charAt(i));
+		}
+		//Now bring the bytes together using and and bitshifting
+		byte[] result = new byte[3];
+		result[0] = (byte) (temp[0] << 2);
+		byte tempByte;
+		tempByte = temp[1];
+		tempByte = (byte) ((byte) tempByte >> 4);
+		result[0] = (byte) ((byte)tempByte | result[0]); 
+		//Now for index 1
+		tempByte = temp[1];
+		tempByte = (byte)(tempByte << 4);
+		tempByte = (byte) (tempByte | result[1]);
+		BinaryPrinter.printByteBinary(result[0]);
+		result[1] = tempByte;
+		return result;
 	}
 	
 	//3. Complete this method so that it takes in a string of any length

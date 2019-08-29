@@ -47,7 +47,7 @@ public class Base64DecoderTester {
 		assertArrayEquals(answer, check);
 	}
 
-	@Test
+	/*@Test
 	public void testBase64StringToByteArray() {
 		String file = "";
 		try {
@@ -79,5 +79,5 @@ public class Base64DecoderTester {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 }
